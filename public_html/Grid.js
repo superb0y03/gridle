@@ -10,7 +10,8 @@ function clear() {
 }
 var num = 0;
 var grid = [];
-const adjNum = 0.1;
+const adjNum = 1;
+const adjMult = 0.1;
 function gridBlock() {
     this.cost = 0;
     this.level = 0;
@@ -38,7 +39,7 @@ function MainGrid() {
     checkLoad();
     this.rightAdjacencyCheck = function(x, y) {
         if(x < 8) {
-            return (adjNum * grid[x + 1][y].level) * (1 + 0.1 * grid[x + 1][y].adjacencyBonus) * ((x + 1) * (y + 1) + 1);
+            return (adjNum * grid[x + 1][y].level) * (1 + adjNum * grid[x + 1][y].adjacencyBonus);
         }
         else {
             return 0;
@@ -46,7 +47,7 @@ function MainGrid() {
     };
     this.downAdjacencyCheck = function(x, y) {
         if(y < 8) {
-            return (adjNum * grid[x][y + 1].level) * (1 + 0.1 * grid[x][y + 1].adjacencyBonus) * ((x + 1) * (y + 1) + 1);
+            return (adjNum * grid[x][y + 1].level) * (1 + adjNum * grid[x][y + 1].adjacencyBonus);
         }
         else {
             return 0;
@@ -61,10 +62,10 @@ function MainGrid() {
         for(var i = 0; i < 9; i++) {
             for(var j = 0; j < 9; j++) {
                 this.adjacencyCheck(i, j);
-                gridPhyses[i][j].innerHTML = "Level: " + grid[i][j].level + " Adjacency Bonus: " + Math.round(grid[i][j].adjacencyBonus * 100) / 100 + " " + "Cost: " +  Math.round(grid[i][j].cost * 100) / 100;        
+                gridPhyses[i][j].innerHTML = "Level: " + grid[i][j].level + " Adjacency Bonus: " + Math.round(grid[i][j].adjacencyBonus * adjMult * 100) / 100 + " " + "Cost: " +  Math.round(grid[i][j].cost * 100) / 100;        
             }
         }
-        num += (grid[0][0].level * (grid[0][0].adjacencyBonus + 1));
+        num += (grid[0][0].level * (grid[0][0].adjacencyBonus * adjMult + 1));
         this.numCount.innerHTML = "Your number is: " + Math.round(num * 100) / 100;
     };
     
